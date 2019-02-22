@@ -54,6 +54,8 @@ end
 
 %% Get Kernel Matrix
 
+% Kernel seems to just be the dot products of the
+% frequency vectors of each document
 K = zeros(m,m);
 for i=1:m
     f1 = doc_term(i,:);
@@ -73,8 +75,35 @@ end
 
 %% Spectral Clustering
 
-y =
+y_true = [1 1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4 5 5 5 6 6 7 7 8 9 10];
 
-        
+[vecs, eigs] = eig(K);
+mx_val = 1;
+y = vecs(:,1);
+for i=2:m
+    val = eigs(i,i);
+    if val > mx_val
+        mx_val = val;
+        y = vecs(:,i);
+    end
+end
+
+y_t = y;
+mn = mean(y_t);
+for i=1:length(y_t)
+    if y_t(i) >= mn
+        y_t(i) = 1;
+    else
+        y_t(i) = 0;
+    end
+end
+
+%% 
+
+% Confusion on Multi-class spectral clustering
+
+% Dimensionalities of A and D?
+% 
+
 
 

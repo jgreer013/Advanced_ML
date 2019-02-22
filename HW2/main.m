@@ -100,5 +100,19 @@ end
 
 %% 
 
+% Confusion on Multi-class spectral clustering
+
+% Dimensionalities of A and D?
+
+% The sum of the first N eigenvalues of K is strange
+% as K has exactly N eigenvalues. Equation 15
+% mentions the remaining eigenvalues, but
+% there aren't any?
+
+% Dimensionality of V_N?
+
+% What on earth is Capital Lambda? Never mentioned in notes
+% Can't find consistent Linear Algebra meaning
+
 
 
