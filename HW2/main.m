@@ -54,6 +54,8 @@ end
 
 %% Get Kernel Matrix
 
+% Kernel seems to just be the dot products of the
+% frequency vectors of each document
 K = zeros(m,m);
 for i=1:m
     f1 = doc_term(i,:);
