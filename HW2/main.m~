@@ -98,12 +98,38 @@ for i=1:length(y_t)
     end
 end
 
-%% 
+%% 3 Clusters
 
-% Confusion on Multi-class spectral clustering
+% Note: N = number of clusters
+% L = number of data points
+% Capital lambda is the diagonal eigenvalue matrix
 
-% Dimensionalities of A and D?
-% 
+N = 3;
+V_N = eigs(:,1:N);
+r_lambda = sqrtm(eigs);
+W = (V_N'*r_lambda)';
+
+A = W;
+for i=1:size(W,1)
+    mx = W(i,1);
+    mx_j = 1;
+    A(i,1) = 0;
+    for j=1:size(W,2)
+        A(i,1) = 0;
+        if W(i,j) > mx
+            mx = W(i,j);
+            mx_j = j;
+        end
+    end
+    A(i,mx_j) = 1;
+end
+    
+A = real(A)
+
+% Dimensionality of V_N?
+
+% What on earth is Capital Lambda? Never mentioned in notes
+% Can't find consistent Linear Algebra meaning
 
 
 
