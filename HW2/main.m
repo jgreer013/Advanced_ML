@@ -53,18 +53,13 @@ for i=1:m
     doc_term(i,:) = doc_term(i,:)/sum(doc_term(i,:));
 end
 
+term_term = doc_term'*doc_term;
+
 %% Get Kernel Matrix
 
 % Kernel seems to just be the dot products of the
 % frequency vectors of each document
-K = zeros(m,m);
-for i=1:m
-    f1 = doc_term(i,:);
-    for j=1:m
-        f2 = doc_term(j,:);
-        K(i,j) = f1 * f2';
-    end
-end
+K = doc_term*doc_term';
 
 %% Optional: Normalize K
 
@@ -78,11 +73,11 @@ end
 
 y_true = [1 1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4 5 5 5 6 6 7 7 8 9 10];
 
-[vecs, eigs] = eig(K);
+[vecs, eggs, ~] = svd(K);
 mx_val = 1;
 y = vecs(:,1);
 for i=2:m
-    val = eigs(i,i);
+    val = eggs(i,i);
     if val > mx_val
         mx_val = val;
         y = vecs(:,i);
@@ -105,9 +100,9 @@ end
 % L = number of data points
 % Capital lambda is the diagonal eigenvalue matrix
 
-N = 4;
+N = 2;
 V_N = vecs(:,1:N);
-r_lambda = sqrtm(eigs);
+r_lambda = sqrtm(eggs);
 W = (V_N'*r_lambda)';
 
 A = W;
