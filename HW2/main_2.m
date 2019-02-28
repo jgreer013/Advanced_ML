@@ -21,7 +21,13 @@ for k=1:m
     fclose(f);
     all = vertcat(all, fileData{k});
 end
+%Stem the words
+for i=1:length(all)
+  all{i} = stemmer(all{i});
+end
 
+disp('Stemming Done')
+disp(length(unique(all)))
 stops = {'1','10','11','12','13','14','15','18','2','20','23','3','4','5','6','7','7ve','8','8sb','9'}; %Stop words go here
 t_to_id = containers.Map;
 for i=1:length(all)
@@ -48,6 +54,7 @@ for i=1:m
     for j=1:length(file)
         term = file{j};
         if ~any(strcmp(stops, term))
+            term = stemmer(term);
             id = t_to_id(term);
             doc_term(i,id) = doc_term(i,id) + 1;
         end
@@ -153,9 +160,6 @@ for i=2:4
     silhouette(doc_term, clusts)
     title(['N = ', num2str(N)]);
     hold on;
-
-
 end
-
 
 

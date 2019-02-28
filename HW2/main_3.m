@@ -15,7 +15,7 @@ fclose(f);
 m = length(files);
 all = {};
 for k=1:m
-    fn=strcat('exmp/',files{k});
+    fn=strcat('exmp_categories/',files{k});
     f = fopen(fn, 'r');
     fileData(k) = textscan(f, '%s');
     fclose(f);

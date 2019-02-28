@@ -58,15 +58,11 @@ end
 
 term_term = doc_term'*doc_term;
 
-%% Plot Term-Term
-
 figure;
+title('
 colormap('hot');
 imagesc(term_term);
 colorbar;
-xlabel('Term ID');
-ylabel('Term ID');
-title('Term-term Matrix Heatmap');
 
 %% Get Kernel Matrix
 
@@ -83,12 +79,10 @@ K = doc_term*doc_term';
 %end
 
 figure;
+title('Kernel Matrix Heatmap');
 colormap('hot');
 imagesc(K);
 colorbar;
-xlabel('Doc ID');
-ylabel('Doc ID');
-title('Kernel Matrix Heatmap');
 %% Spectral Clustering
 
 y_true = [1 1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4 5 5 5 6 6 7 7 8 9 10];
@@ -156,6 +150,10 @@ for i=2:4
 
 
 end
+% Dimensionality of V_N?
+
+% What on earth is Capital Lambda? Never mentioned in notes
+% Can't find consistent Linear Algebra meaning
 
 
 
