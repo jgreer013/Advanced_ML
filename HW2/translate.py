@@ -18,4 +18,4 @@ for fil in os.listdir("./exmp"):
   with open("./exmp/"+fil,"r") as inf:
     with open("./exmp_categories/"+fil,"w") as ouf:
       for line in inf:
-        ouf.write(translation[line.replace("\n","")])
+        ouf.write(translation[line.replace("\n","")]+"\n")
