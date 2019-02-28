@@ -50,6 +50,7 @@ for i=1:m
         id = t_to_id(term);
         doc_term(i,id) = doc_term(i,id) + 1;
     end
+    doc_term(i,:) = doc_term(i,:)/sum(doc_term(i,:));
 end
 
 %% Get Kernel Matrix
@@ -61,17 +62,17 @@ for i=1:m
     f1 = doc_term(i,:);
     for j=1:m
         f2 = doc_term(j,:);
-        K(i,j) = dot(f1,f2);
+        K(i,j) = f1 * f2';
     end
 end
 
 %% Optional: Normalize K
 
-for i=1:m
-    for j=1:m
-        K(i,j) = K(i,j)/(K(i,i)*K(j,j));
-    end
-end
+%for i=1:m
+%    for j=1:m
+%        K(i,j) = K(i,j)/(K(i,i)*K(j,j));
+%    end
+%end
 
 %% Spectral Clustering
 
@@ -104,9 +105,9 @@ end
 % L = number of data points
 % Capital lambda is the diagonal eigenvalue matrix
 
-N = 3;
-V_N = eigs(:,1:N);
-r_lambda = round(sqrtm(eigs));
+N = 4;
+V_N = vecs(:,1:N);
+r_lambda = sqrtm(eigs);
 W = (V_N'*r_lambda)';
 
 A = W;
@@ -125,7 +126,12 @@ for i=1:size(W,1)
 end
     
 A = real(A);
+clusts = zeros(size(A,1),1);
+for i=1:size(A,1)
+    clusts(i) = find(A(i,:)==1);
+end
 
+silhouette(doc_term, clusts)
 % Dimensionality of V_N?
 
 % What on earth is Capital Lambda? Never mentioned in notes
