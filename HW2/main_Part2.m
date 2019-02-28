@@ -21,13 +21,13 @@ for k=1:m
     fclose(f);
     all = vertcat(all, fileData{k});
 end
-%Stem the words
+
+%Stemmer
 for i=1:length(all)
   all{i} = stemmer(all{i});
 end
-disp("Stemming DOne")
-disp(length(unique(all)))
-stops = {}; %Stop words go here
+
+stops = {'1','10','11','12','13','14','15','18','2','20','23','3','4','5','6','7','7ve','8','8sb','9'}; %Stop words go here
 t_to_id = containers.Map;
 for i=1:length(all)
     term = all{i};
@@ -52,14 +52,23 @@ for i=1:m
     file = fileData{i};
     for j=1:length(file)
         term = stemmer(file{j});
-        id = t_to_id(term);
-        doc_term(i,id) = doc_term(i,id) + 1;
+        if ~any(strcmp(stops, term))
+            id = t_to_id(term);
+            doc_term(i,id) = doc_term(i,id) + 1;
+        end
+        
     end
     doc_term(i,:) = doc_term(i,:)/sum(doc_term(i,:));
 end
 
 term_term = doc_term'*doc_term;
-disp("end")
+
+figure;
+title('Term-term Matrix Heatmap');
+colormap('hot');
+imagesc(term_term);
+colorbar;
+
 %% Get Kernel Matrix
 
 % Kernel seems to just be the dot products of the
@@ -74,6 +83,11 @@ K = doc_term*doc_term';
 %    end
 %end
 
+figure;
+title('Kernel Matrix Heatmap');
+colormap('hot');
+imagesc(K);
+colorbar;
 %% Spectral Clustering
 
 y_true = [1 1 1 1 1 2 2 2 2 3 3 3 3 4 4 4 4 5 5 5 6 6 7 7 8 9 10];
@@ -105,33 +119,42 @@ end
 % L = number of data points
 % Capital lambda is the diagonal eigenvalue matrix
 
-N = 2;
-V_N = vecs(:,1:N);
-r_lambda = sqrtm(eggs);
-W = (V_N'*r_lambda)';
+figure;
+title('Silhouette Plots');
+for i=2:4
+    N = i;
+    V_N = vecs(:,1:N);
+    r_lambda = sqrtm(eggs);
+    W = (V_N'*r_lambda)';
 
-A = W;
-for i=1:size(W,1)
-    mx = W(i,1);
-    mx_j = 1;
-    A(i,1) = 0;
-    for j=1:size(W,2)
-        A(i,j) = 0;
-        if W(i,j) > mx
-            mx = W(i,j);
-            mx_j = j;
+    A = W;
+    for i=1:size(W,1)
+        mx = W(i,1);
+        mx_j = 1;
+        A(i,1) = 0;
+        for j=1:size(W,2)
+            A(i,j) = 0;
+            if W(i,j) > mx
+                mx = W(i,j);
+                mx_j = j;
+            end
         end
+        A(i,mx_j) = 1;
     end
-    A(i,mx_j) = 1;
-end
-    
-A = real(A);
-clusts = zeros(size(A,1),1);
-for i=1:size(A,1)
-    clusts(i) = find(A(i,:)==1);
-end
 
-silhouette(doc_term, clusts)
+    A = real(A);
+    clusts = zeros(size(A,1),1);
+    for i=1:size(A,1)
+        clusts(i) = find(A(i,:)==1);
+    end
+
+    subplot(1,3,N-1);
+    silhouette(doc_term, clusts)
+    title(['N = ', num2str(N)]);
+    hold on;
+
+
+end
 % Dimensionality of V_N?
 
 % What on earth is Capital Lambda? Never mentioned in notes
