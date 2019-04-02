@@ -11,10 +11,11 @@ function [ res, classes ] = generate_samples( N )
         ui = randi(2);
         if ui == 1
             u = u1;
-            classes(i) = 0;
+            % Kmeans clasification starts at 1
+            classes(i) = 1;
         else
             u = u2;
-            classes(i) = 1;
+            classes(i) = 2;
         end
         
         if ri == 1
