@@ -3,6 +3,7 @@
 clear all;
 close all;
 clc;
+rng(1);
 
 %% Part 1: Generate Data
 
@@ -18,19 +19,12 @@ matEmbed = cell2mat(embeds);
 
 dmat = pad_mat(data, M, 100);
 
-for i=1:N
-    for j=1:N
-        haus_set(dmat(i,:),dmat(j,:));
-    end
-end
-
-
-%kmeanRes = kmedoids(dmat,2,'Distance',@haus_set);
+kmeanRes = kmedoids(dmat,2,'Distance',@haus_pdist);
 
 %Assuming mathlab commands
 
 figure;
-silhouette(matEmbed,kmeanRes)
+silhouette(dmat,kmeanRes)
 %labelsSil = silhouette(matEmbed,labels)
 
 
