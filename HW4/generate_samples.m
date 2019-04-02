@@ -21,11 +21,11 @@ function [ res, classes ] = generate_samples( N )
         if ri == 1
             res{i} = randn(1,1) + u;
         elseif ri == 2
-            res{i} = sort(randn(2,1)) + u;
+            res{i} = sort(randn(1,2)) + u;
         elseif ri == 3
-            res{i} = sort(randn(3,1)) + u;
+            res{i} = sort(randn(1,3)) + u;
         elseif ri == 4
-            res{i} = sort(randn(4,1)) + u;
+            res{i} = sort(randn(1,4)) + u;
         end
     end
 
