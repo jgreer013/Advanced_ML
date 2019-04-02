@@ -1,6 +1,6 @@
-function [interval] = levelset(alpha,point)
+function [interval] = levelset(alpha,point,flag)
 
-  dataSize = size(point,2);
+  dataSize = rs(point,flag);
   if dataSize < 3
     interval = point;
   elseif dataSize == 3
@@ -14,5 +14,5 @@ function [interval] = levelset(alpha,point)
     c = point(3);
     d = point(4);
     interval = [a+alpha*(b-a),d-alpha*(d-c)];
-  endif
-endfunction
+  end
+end

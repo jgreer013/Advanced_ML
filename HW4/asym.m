@@ -1,9 +1,9 @@
-function [ d ] = asym(A,B)
+function [ d ] = asym(A,B, flag)
 %asym: asymmetric distance of A to B
 %   Detailed explanation goes here
 
-    a = size(A,2);
-    b = size(B,2);
+    a = rs(A,flag);
+    b = rs(B,flag);
     supr = zeros(a,1);
     for xi = 1:a
         di = zeros(b,1);
