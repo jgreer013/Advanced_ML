@@ -3,8 +3,6 @@ function [ d ] = haus_set(A,B)
 %   Detailed explanation goes here
 
     flag = 100;
-    %ab = asym(A,B);
-    %ba = asym(B,A);
     dmax= [];
     for x=0:10
     alpha = x*.1;

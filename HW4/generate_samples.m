@@ -1,9 +1,7 @@
-function [ res, classes ] = generate_samples( N )
+function [ res, classes ] = generate_samples( N, u1, u2 )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
     res = cell(N,1);
-    u1 = -0.1;
-    u2 = 0.1;
     classes = zeros(N,1);
     
     for i=1:N

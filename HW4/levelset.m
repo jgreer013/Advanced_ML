@@ -1,8 +1,10 @@
 function [interval] = levelset(alpha,point,flag)
 
   dataSize = rs(point,flag);
-  if dataSize < 3
-    interval = point;
+  if dataSize == 1
+    interval = [point(1)];
+  elseif dataSize == 2
+    interval = [point(1), point(2)];
   elseif dataSize == 3
     a = point(1);
     b = point(2);
